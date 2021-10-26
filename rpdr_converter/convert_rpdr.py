@@ -1,12 +1,13 @@
 import csv
 import os
+from multiprocessing import Queue
 from typing import Callable
 
 
 def convert_rpdr(rpdr_filename: str,
                  out_filename: str,
                  append_error: Callable[[str], None],
-                 append_progress: Callable[[float], None]) -> None:
+                 progress_queue: 'Queue[float]') -> None:
     filesize = os.path.getsize(rpdr_filename)
     ignore_count = 0
     progress = 0.
@@ -18,7 +19,8 @@ def convert_rpdr(rpdr_filename: str,
             ignore_count = 0
             for row in reader:
                 progress += len('|'.join(row).encode('utf-8')) / filesize
-                append_progress(progress * 100)
+                if not progress_queue.full():
+                    progress_queue.put(progress * 100)
                 if line_length is None:
                     line_length = len(row)
                 if len(row) != line_length:

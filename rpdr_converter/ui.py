@@ -7,7 +7,7 @@ from typing import Callable
 class UserInterface:
     def __init__(
         self,
-        convert: Callable[[str, str, Callable[[str], None], Callable[[float], None]], None]
+        convert: Callable[[str, str, Callable[[str], None], 'multiprocessing.Queue[float]'], None]
     ) -> None:
         self.convert = convert
 
@@ -55,13 +55,9 @@ class UserInterface:
         errors: multiprocessing.Queue[str] = multiprocessing.Queue()
         progress: multiprocessing.Queue[float] = multiprocessing.Queue(maxsize=1)
 
-        def set_progress(new_progress: float) -> None:
-            if not progress.full():
-                progress.put(new_progress)
-
         thread = multiprocessing.Process(
             target=self.convert,
-            args=(input_file, output_file, errors.put, set_progress)
+            args=(input_file, output_file, errors.put, progress)
         )
         thread.start()
 
