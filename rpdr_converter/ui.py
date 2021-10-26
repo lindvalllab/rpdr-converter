@@ -3,11 +3,12 @@ import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 from typing import Callable
 
-from convert_rpdr import convert_rpdr
-
 
 class UserInterface:
-    def __init__(self) -> None:
+    def __init__(self,
+                 convert: Callable[[str, str, Callable[[str], None]], None]) -> None:
+        self.convert = convert
+
         self.root = tk.Tk()
         self.root.title("RPDR converter")
 
@@ -50,7 +51,7 @@ class UserInterface:
         errors: multiprocessing.Queue[str] = multiprocessing.Queue()
 
         thread = multiprocessing.Process(
-            target=convert_rpdr,
+            target=self.convert,
             args=(input_file, output_file, errors.put)
         )
         thread.start()
@@ -87,8 +88,3 @@ def create_loading_window(root: tk.Tk,
 
     loading_window.after(50, check_if_running)
     loading_window.mainloop()
-
-
-if __name__ == '__main__':
-    ui = UserInterface()
-    ui.run()

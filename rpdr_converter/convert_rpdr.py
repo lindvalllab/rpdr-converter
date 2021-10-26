@@ -18,7 +18,6 @@ def convert_rpdr(rpdr_filename: str,
                 if line_length is None:
                     line_length = len(row)
                 if len(row) != line_length:
-                    print(row)
                     ignore_count += 1
                 else:
                     writer.writerow(row)
@@ -28,8 +27,3 @@ def convert_rpdr(rpdr_filename: str,
                     f'WARNING: Found {ignore_count} badly formatted lines which were skipped.\n'
                     'The output file will be missing data from the original file.'
                 )
-
-
-if __name__ == '__main__':
-    filename = 'CL491_20210116_174713_Prc.txt'
-    convert_rpdr(filename, 'out.csv', lambda x: None)
