@@ -5,9 +5,11 @@ from typing import Callable
 
 def convert_rpdr(rpdr_filename: str,
                  out_filename: str,
-                 append_error: Callable[[str], None]) -> None:
-    # open the RPDR file and read the lines
+                 append_error: Callable[[str], None],
+                 append_progress: Callable[[float], None]) -> None:
+    filesize = os.path.getsize(rpdr_filename)
     ignore_count = 0
+    progress = 0.
     with open(rpdr_filename, 'r', newline='') as rpdr_file:
         with open(out_filename, 'w', newline='') as out_file:
             line_length = None
@@ -15,6 +17,8 @@ def convert_rpdr(rpdr_filename: str,
             writer = csv.writer(out_file, lineterminator=os.linesep)
             ignore_count = 0
             for row in reader:
+                progress += len('|'.join(row).encode('utf-8')) / filesize
+                append_progress(progress * 100)
                 if line_length is None:
                     line_length = len(row)
                 if len(row) != line_length:
