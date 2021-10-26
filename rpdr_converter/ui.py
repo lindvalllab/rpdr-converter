@@ -20,17 +20,17 @@ class UserInterface:
         frame = ttk.Frame(content, borderwidth=5, relief="ridge")
         frame.grid(column=0, row=0, columnspan=1, rowspan=1, sticky='nsew')
 
-        button = ttk.Button(content,
-                            text="Start",
-                            command=self.process_files)
-        button.grid(column=0, row=0, sticky='nsew', padx=50, pady=50)
+        self.button = ttk.Button(content,
+                                 text="Start",
+                                 command=self.process_files)
+        self.button.grid(column=0, row=0, sticky='nsew', padx=50, pady=50)
 
         self.root.columnconfigure(0, weight=1)
         self.root.rowconfigure(0, weight=1)
         content.columnconfigure(0, weight=1)
         content.rowconfigure(0, weight=1)
 
-        button.focus()
+        self.button.focus()
 
     def run(self) -> None:
         self.root.mainloop()
@@ -49,6 +49,8 @@ class UserInterface:
         )
         if len(output_file) == 0:
             return
+
+        self.button['state'] = tk.DISABLED
 
         errors: multiprocessing.Queue[str] = multiprocessing.Queue()
         progress: multiprocessing.Queue[float] = multiprocessing.Queue(maxsize=1)
@@ -71,6 +73,7 @@ class UserInterface:
                 while not errors.empty():
                     error_list.append(errors.get())
                 messagebox.showwarning('A problem occurred', message='\n\n'.join(error_list))
+            self.button['state'] = tk.NORMAL
 
         create_loading_window(self.root, thread, progress, on_finish)
 
