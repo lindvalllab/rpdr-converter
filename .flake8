@@ -1,0 +1,3 @@
+[flake8]
+exclude = rpenv
+max-line-length = 100
