@@ -8,6 +8,7 @@ def convert_rpdr(rpdr_filename: str,
                  out_filename: str,
                  append_error: Callable[[str], None],
                  progress_queue: 'Queue[float]') -> None:
+    csv.field_size_limit(10 ** 10)
     filesize = os.path.getsize(rpdr_filename)
     ignore_count = 0
     progress = 0.
