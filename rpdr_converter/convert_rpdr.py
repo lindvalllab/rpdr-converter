@@ -105,6 +105,7 @@ def convert_rpdr_with_report_text(rpdr_filename: str,
                     header = next(reader)
                     progress += len('|'.join(header).encode('utf-8')) / filesize
                     line_length = len(header)
+                    writer.writerow(header)
 
                 row, ignored, bytes_processed = read_line_with_report_text(reader, line_length)
                 ignore_count += ignored
