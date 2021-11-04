@@ -1,0 +1,6 @@
+EMPI|EPIC_PMRN|MRN_Type|MRN|Date|Procedure_Name|Code_Type|Code|Procedure_Flag|Quantity|Provider|Clinic|Hospital|Inpatient_Outpatient|Encounter_number
+12345|23456|L'Hôpital|34567|1/1/1970|Healing|ABC|45678||2.0|Name, Fake, MD, Ph.D.|LH XYZ (2)|LH|Inpatient|EPIC-123456789
+1234|2345|L'Hôpital|3456|1/1/1990|Healing
+and
+Curing|ABC|45678||2.0|Name, Fake, MD, Ph.D.|LH XYZ (2)|LH|Inpatient|EPIC-123456789
+31459|14592|XGH|45926|1/1/1980|Curing|DEF|59265||1.0|Doctor, Pretend, MD|XHG ABC (3)|XGH|Outpatient|EPIC-987654321

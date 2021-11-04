@@ -1,0 +1,15 @@
+EMPI,EPIC_PMRN,MRN_Type,MRN,Report_Number,Report_Date_Time,Report_Description,Report_Status,Report_Type,Report_Text
+123,234,XYZ,345,123456,1/1/2021 10:21:43 AM,Office Visit,F,VIS:VISIT,"***This text report has been converted from***
+
+Patient, Patient (MR #345)                                         Encounter Date: 01/01/2021
+
+Patient Patient                                                    Description:  Male DOB:
+
+1/1/2021 10:21 AM                          Office Visit
+
+The patient looks very healthy!"
+345,456,ABC,567,234567,2/2/2021 11:21:43 AM,Office Visit,F,VIS:VISIT,"There is
+a random "" quotation mark
+in the report
+text"
+654,473,DFW,764,645234,3/3/2023 9:32:34 PM,Office Visit,F,VIS:VISIT,report is on one line
