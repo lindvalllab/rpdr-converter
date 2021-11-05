@@ -58,6 +58,7 @@ def read_line_with_report_text(
             return None, ignored, bytes_processed
 
     if row[-1].endswith('[report_end]'):
+        row[-1] = row[-1][:-len('[report_end]')]  # strip [report_end] from text
         return row, ignored, bytes_processed
 
     try:
