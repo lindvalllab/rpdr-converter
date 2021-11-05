@@ -1,0 +1,44 @@
+name: Build release
+
+on:
+  release:
+    types: [released]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+      - name: Build (linux)
+        run: pyinstaller -wF rpdr_converter/rpdr_converter.py -n rpdr-converter-linux
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+      - name: Build (macos)
+        run: |
+          pyinstaller -wF rpdr_converter/rpdr_converter.py -n rpdr-converter
+          pushd dist
+          rm rpdr-converter  # keep only .app file for uploading
+          zip -r rpdr-converter.app.zip rpdr-converter.app
+          rm -r rpdr-converter.app
+          popd
+        if: ${{ matrix.os == 'macos-latest' }}
+      - name: Build (windows)
+        run: pyinstaller -wF rpdr_converter/rpdr_converter.py -n rpdr-converter
+        if: ${{ matrix.os == 'windows-latest' }}
+      - name: Upload build to release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: dist/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
