@@ -18,4 +18,4 @@ jobs:
       - name: Type check
         run: mypy
       - name: Run tests
-        run: pytest
+        run: pytest -s

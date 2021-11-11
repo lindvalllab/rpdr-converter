@@ -31,6 +31,7 @@ def test_convert_rpdr_no_report(file_path: str) -> None:
     last_progress = 0.
     while not progress_queue.empty():
         last_progress = progress_queue.get()
+    print(last_progress)
 
     assert math.isclose(last_progress, 100.0, rel_tol=1e-7)
 
