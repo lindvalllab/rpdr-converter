@@ -18,7 +18,8 @@ def convert_rpdr(rpdr_filename: str,
             writer = csv.writer(out_file, lineterminator=os.linesep)
             ignore_count = 0
             for row in reader:
-                progress += len('|'.join(row).encode('utf-8')) / filesize
+                # add 1 for newline
+                progress += (len('|'.join(row).encode('utf-8')) + 1) / filesize
                 if not progress_queue.full():
                     progress_queue.put(progress * 100)
                 if line_length is None:
@@ -53,7 +54,7 @@ def read_line_with_report_text(
             ignored += 1
         try:
             row = next(reader)
-            bytes_processed += len('|'.join(row).encode('utf-8'))
+            bytes_processed += len('|'.join(row).encode('utf-8')) + 1
         except StopIteration:
             return None, ignored, bytes_processed
 
@@ -63,7 +64,7 @@ def read_line_with_report_text(
 
     try:
         next_row = next(reader)
-        bytes_processed += len('|'.join(next_row).encode('utf-8'))
+        bytes_processed += len('|'.join(next_row).encode('utf-8')) + 1
     except StopIteration:
         return None, ignored, bytes_processed
 
@@ -75,7 +76,7 @@ def read_line_with_report_text(
         possibly_ignored += 1  # If we fail to find a '[report_end]', these lines have been ignored
         try:
             next_row = next(reader)
-            bytes_processed += len('|'.join(next_row).encode('utf-8'))
+            bytes_processed += len('|'.join(next_row).encode('utf-8')) + 1
         except StopIteration:
             return None, ignored + possibly_ignored, bytes_processed
 
@@ -104,7 +105,7 @@ def convert_rpdr_with_report_text(rpdr_filename: str,
                 if line_length is None:
                     # Processing header row
                     header = next(reader)
-                    progress += len('|'.join(header).encode('utf-8')) / filesize
+                    progress += (len('|'.join(header).encode('utf-8')) + 1) / filesize
                     line_length = len(header)
                     writer.writerow(header)
 
