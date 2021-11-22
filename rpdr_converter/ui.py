@@ -4,6 +4,8 @@ import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 from typing import Callable
 
+import _version
+
 
 class UserInterface:
     def __init__(
@@ -13,23 +15,31 @@ class UserInterface:
         self.convert = convert
 
         self.root = tk.Tk()
-        self.root.title("RPDR converter")
+        self.root.title('RPDR converter')
 
         # Set up interface
         content = ttk.Frame(self.root)
         content.grid(column=0, row=0, sticky='nsew')
-        frame = ttk.Frame(content, borderwidth=5, relief="ridge")
-        frame.grid(column=0, row=0, columnspan=1, rowspan=1, sticky='nsew')
+        frame = ttk.Frame(content, borderwidth=5, relief='ridge')
+        frame.grid(column=0, row=0, columnspan=1, rowspan=2, sticky='nsew')
 
         self.button = ttk.Button(content,
-                                 text="Start",
+                                 text='Start',
                                  command=self.process_files)
-        self.button.grid(column=0, row=0, sticky='nsew', padx=50, pady=50)
+        self.about = ttk.Button(
+            content,
+            text='About',
+            command=lambda: messagebox.showinfo('RPDR Converter',
+                                                f'RPDR Converter v{_version.__version__}')
+        )
+        self.button.grid(column=0, row=0, sticky='nsew', padx=50, pady=(25, 10))
+        self.about.grid(column=0, row=1, sticky='nsew', padx=50, pady=(10, 25))
 
         self.root.columnconfigure(0, weight=1)
         self.root.rowconfigure(0, weight=1)
         content.columnconfigure(0, weight=1)
         content.rowconfigure(0, weight=1)
+        content.rowconfigure(1, weight=1)
 
         self.button.focus()
 
