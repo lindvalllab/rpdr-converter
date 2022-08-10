@@ -28,9 +28,9 @@ jobs:
         run: |
           pyinstaller -wF rpdr_converter/rpdr_converter.py -n rpdr-converter-${{github.event.release.tag_name}}
           pushd dist
-          rm rpdr-converter  # keep only .app file for uploading
-          zip -r rpdr-converter.app.zip rpdr-converter.app
-          rm -r rpdr-converter.app
+          rm rpdr-converter-${{github.event.release.tag_name}} # keep only .app file for uploading
+          zip -r rpdr-converter-${{github.event.release.tag_name}}.app.zip rpdr-converter-${{github.event.release.tag_name}}.app
+          rm -r rpdr-converter-${{github.event.release.tag_name}}.app
           popd
         if: ${{ matrix.os == 'macos-latest' }}
       - name: Build (windows)
