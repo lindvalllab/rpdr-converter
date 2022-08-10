@@ -22,11 +22,11 @@ jobs:
           pip install -r requirements.txt
           pip install pyinstaller
       - name: Build (linux)
-        run: pyinstaller -wF rpdr_converter/rpdr_converter.py -n rpdr-converter-linux
+        run: pyinstaller -wF rpdr_converter/rpdr_converter.py -n rpdr-converter-linux-${{github.event.release.tag_name}}
         if: ${{ matrix.os == 'ubuntu-latest' }}
       - name: Build (macos)
         run: |
-          pyinstaller -wF rpdr_converter/rpdr_converter.py -n rpdr-converter
+          pyinstaller -wF rpdr_converter/rpdr_converter.py -n rpdr-converter-${{github.event.release.tag_name}}
           pushd dist
           rm rpdr-converter  # keep only .app file for uploading
           zip -r rpdr-converter.app.zip rpdr-converter.app
@@ -34,7 +34,7 @@ jobs:
           popd
         if: ${{ matrix.os == 'macos-latest' }}
       - name: Build (windows)
-        run: pyinstaller -wF rpdr_converter/rpdr_converter.py -n rpdr-converter
+        run: pyinstaller -wF rpdr_converter/rpdr_converter.py -n rpdr-converter-${{github.event.release.tag_name}}
         if: ${{ matrix.os == 'windows-latest' }}
       - name: Upload build to release
         uses: softprops/action-gh-release@v1
