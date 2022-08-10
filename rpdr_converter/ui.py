@@ -1,4 +1,5 @@
 import multiprocessing
+import os
 import sys
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
@@ -53,9 +54,12 @@ class UserInterface:
         )
         if len(input_file) == 0:
             return
+        directory, filename = os.path.split(input_file)
         output_file = filedialog.asksaveasfilename(
             title='Please choose where to save the processed file',
             filetypes=[("Comma-separated files", "*.csv")],
+            initialdir=directory,
+            initialfile=filename[:-3] + 'csv',
             defaultextension=".csv"
         )
         if len(output_file) == 0:
