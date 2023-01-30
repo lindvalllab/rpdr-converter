@@ -12,7 +12,7 @@ def convert_rpdr(rpdr_filename: str,
     ignore_count = 0
     progress = 0.
     with open(rpdr_filename, 'r', newline='') as rpdr_file:
-        with open(out_filename, 'w', newline='') as out_file:
+        with open(out_filename, 'w', newline='', encoding='utf-8') as out_file:
             line_length = None
             reader = csv.reader(rpdr_file, delimiter='|', quoting=csv.QUOTE_NONE)
             writer = csv.writer(out_file, lineterminator=os.linesep)
